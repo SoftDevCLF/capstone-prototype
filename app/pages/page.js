@@ -1,4 +1,6 @@
 import PageHeader from "../components/PageHeader";
+import ReportDropdown from "../components/ReportRelated/ReportDropdown";
+import Calendar from "../components/ReportRelated/Calendar";
 
 const pageHeader = {
   title: "Generate Reports Page",
@@ -9,6 +11,8 @@ export default function Page() {
     <main className="">
       {/* Pass header props to page header component */}
       <PageHeader {...pageHeader} />
+      <h1>Reports</h1>
+      <ReportDropdown/>
     </main>
   );
 }
