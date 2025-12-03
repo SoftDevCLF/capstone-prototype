@@ -13,6 +13,11 @@ const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: f
 export default function PDFViewer({ pdfData, onClear }) {
   // //The pdf data will either be a URL to a PDF file, file object, or null
   
+  // The backend (Python) will generate the PDF based on the selected report type
+  // and date range. Once generated, it will be sent to the frontend as:
+  // - A URL (e.g., /api/reports?type=EnergyGenerated&start=2025-12-01&end=2025-12-03)
+  // - OR a Blob (binary PDF content fetched via fetch API)
+  // The parent report page will then pass that data as the 'pdfData' prop.
 
   return (
     <div className="w-full bg-white shadow-md border rounded-xl p-6">
