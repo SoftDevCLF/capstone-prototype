@@ -24,7 +24,7 @@ export default function SelectSmall({ report, setReport }) {
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
-        value={report}
+        value={report || ""}
         label="Report"
         onChange={handleChange}
       >
