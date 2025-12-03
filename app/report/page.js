@@ -10,13 +10,40 @@ import { useState } from "react";
 
 export default function Page() {
 
-const [pdfData, setPdfData] = useState(null)
+  //State variables
+const [selectedReport, setSelectedReport] = useState("");
+const [pdfData, setPdfData] = useState(null);
+const [startDate, setStartDate] = useState(null);
+const [endDate, setEndDate] = useState(null);
 
 //Logout handler
   const handleLogout = () => {
     // TODO: add actual logout logic (clear session, redirect, etc.)
     console.log("User has successfully logged out");
   };
+
+//Report handler
+ const handleCreateReport = async () => {
+    // TODO: Connect to your Python backend
+    // Example API endpoint: /api/reports?type=...&start=...&end=...
+    // Convert startDate/endDate to string format if needed
+    console.log("Fetching report for:", selectedReport, startDate, endDate);
+ try {
+      // Example fetch (replace URL with your backend endpoint)
+      const response = await fetch(
+        `/api/reports?type=${encodeURIComponent(selectedReport)}&start=${startDate}&end=${endDate}`
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch report");
+
+      const blob = await response.blob(); // assuming backend returns PDF
+      const pdfUrl = URL.createObjectURL(blob);
+      setPdfData(pdfUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
 return (
     <main className="bg-gray-50 min-h-screen">
@@ -31,8 +58,13 @@ return (
 
           {/* LEFT CARD */}
           <div className="col-span-1 p-6 bg-white shadow-md rounded-xl border space-y-6">
-            <ReportDropdown />
-            <Calendar />
+            <ReportDropdown report={selectedReport} setReport={setSelectedReport} />
+            <Calendar
+              startDate={startDate} 
+              setStartDate={setStartDate} 
+              endDate={endDate} 
+              setEndDate={setEndDate} 
+             />
 
 
           </div>
