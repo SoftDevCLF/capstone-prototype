@@ -1,24 +1,23 @@
 "use client";
 
-import PageHeader from "../components/PageHeader";
 import ReportDropdown from "../components/ReportRelated/ReportDropdown";
 import Calendar from "../components/ReportRelated/Calendar";
-import dynamic from "next/dynamic";
+import Footer from "../components/footer";
+import Navbar from "../components/nav-bar";
+import EmptyHeader from "../components/empty-header"; 
 
-const pageHeader = {
-  title: "Generate Reports Page",
-  description: "page to generate reports"
-}
 
 export default function Page() {
   return (
     <main className="">
       {/* Pass header props to page header component */}
-      <PageHeader {...pageHeader} />
+      <EmptyHeader/>
+      <Navbar/>
       <h1>Reports</h1>
       <ReportDropdown/>
       <p>Select Date Range: </p>
       <Calendar/>
+      <Footer/>
     </main>
   );
 }
