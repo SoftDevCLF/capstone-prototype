@@ -15,7 +15,9 @@ export default function SelectSmall() {
   };
 
   return (
-    <FormControl sx={{ m: 3, minWidth: 250}} size="small">
+    <div> 
+      <p className="px-5 font-bold"> Select The Report Type:</p>
+    <FormControl sx={{ m: 2, minWidth: 250}} size="small">
       <InputLabel id="demo-select-small-label">Select Report Type</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -31,5 +33,6 @@ export default function SelectSmall() {
         
       </Select>
     </FormControl>
+    </div>
   );
 }

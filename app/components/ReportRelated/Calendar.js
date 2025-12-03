@@ -18,20 +18,30 @@ export default function CalenderDate() {
 return (
   
   <div className="flex flex-col items-start">
-      <div>Set date:</div>
+      <p className="px-5 py-2 font-bold">Set Date: </p>
   {/* Button */}
-    <button onClick={handleButtonClick} className="px-10 py-3 bg-white border text-[#0C2340] hover:bg-[#0C2340] hover:text-white rounded-4xl">
+  <div className="px-4 py-3">
+    <button onClick={handleButtonClick} className="px-6 py-2.5 bg-white border text-[#0C2340] hover:bg-[#0C2340] hover:text-white rounded-4xl">
       Calendar 
     </button>
+  </div>
 
   {/* Calendar only shows when button clicked */}
   {showCalendar && (
-    <div className="w-[100px] -ml-5"> 
+    <div className="w-auto"> 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateCalendar />
       </LocalizationProvider>
     </div>
     )}
+    {/*Create New Report Button*/}
+    <div className="px-4 py-3">
+      <button 
+        className="bg-[#EE3124] text-white px-4 py-2.5 rounded-4xl hover:bg-[#8D1527]"
+      >
+        Create New Report
+      </button>
+    </div>
   </div>
   );
 }

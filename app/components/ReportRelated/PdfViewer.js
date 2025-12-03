@@ -1,5 +1,4 @@
 //Functionality to display a PDF preview will be created here
-
 import { Document, Page } from 'react-pdf';
 
 export default function PDFViewer({ pdfData }) {
