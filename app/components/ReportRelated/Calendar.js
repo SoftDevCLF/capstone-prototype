@@ -7,7 +7,7 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useState } from "react";
 
 
-export default function CalenderDate({startDate, setStartDate, endDate, setEndDate }) {
+export default function Calender({startDate, setStartDate, endDate, setEndDate, onCreateReport}) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   //Define function 
@@ -51,9 +51,11 @@ return (
       </LocalizationProvider>
     </div>
     )}
+
     {/*Create New Report Button*/}
     <div className="px-4 py-3">
       <button 
+        onClick={() => onCreateReport()} //pass fnction from parent
         className="bg-[#EE3124] text-white  font-bold px-4 py-3 rounded-4xl hover:bg-[#8D1527]"
         style={{ fontFamily: "var(--font-titillium)" }}
       >

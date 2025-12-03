@@ -64,6 +64,7 @@ return (
               setStartDate={setStartDate} 
               endDate={endDate} 
               setEndDate={setEndDate} 
+              onCreateReport={handleCreateReport}
              />
 
 
