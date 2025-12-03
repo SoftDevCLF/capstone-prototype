@@ -1,30 +1,19 @@
 "use client";
 
-//Functionality to display a PDF preview will be created here
 import dynamic from "next/dynamic";
 import { pdfjs } from "react-pdf";
-import { useEffect } from "react";
 
+//For PDF rendering
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-// Disable SSR for react-pdf components
-const Document = dynamic(
-  () => import("react-pdf").then((mod) => mod.Document),
-  { ssr: false }
-);
-
-const Page = dynamic(
-  () => import("react-pdf").then((mod) => mod.Page),
-  { ssr: false }
-);
-
+//Import Document and Page to avoid SSR issues
+const Document = dynamic(() => import("react-pdf").then((mod) => mod.Document), { ssr: false });
+const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
 
 export default function PDFViewer({ pdfData, onClear }) {
+  //The pdf data will either be a URL to a PDF file, file object, or null
+  if (!pdfData) return <p>No PDF to display</p>
 
-  // Ensure pdfjs worker is set only in the browser
-  useEffect(() => {
-    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-  }, []);
-  
   return (
     <div className="w-full bg-white shadow-md border rounded-xl p-6">
 
