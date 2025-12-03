@@ -6,7 +6,7 @@ import LoginForm from "../components/login-form";
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <Header />
+      <Header showLoginButton={false} /> {/*hide the login button*/}
       <Navbar />
 
       <main className="grow flex items-center justify-center">

@@ -9,7 +9,6 @@ export default function LogoutButton() {
   const popupRef = useRef(null);
 
   const handleLogout = () => {
-    // TODO: add actual logout logic here
     router.push("/login");
   };
 
