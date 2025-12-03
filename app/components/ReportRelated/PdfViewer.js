@@ -48,12 +48,14 @@ export default function PDFViewer({ pdfData, onClear }) {
       {/* Header & Buttons  */}
       <div className="flex justify-center my-5 items-center mb-4">
         <div className="flex gap-3">
-          <button className="bg-[#005EB8] text-white px-5 py-2 rounded-lg hover:bg-[#004D96]" style={{ fontFamily: "var(--font-titillium)" }}>
+          <button className="bg-[#005EB8] text-white font-bold px-8 py-3 rounded-4xl hover:bg-[#004D96]" style={{ fontFamily: "var(--font-titillium)" }}>
             Print
+          <span className="ml-5">{">"}</span>
           </button>
 
-          <button className="bg-[#6D2077] text-white px-5 py-2 rounded-lg hover:bg-[#571A5F]" style={{ fontFamily: "var(--font-titillium)" }}>
+          <button className="bg-[#6D2077] text-white font-bold px-7 py-3 rounded-4xl hover:bg-[#571A5F]" style={{ fontFamily: "var(--font-titillium)" }}>
             Download
+          <span className="ml-5">{">"}</span>
           </button>
         </div>
       </div>
@@ -61,12 +63,13 @@ export default function PDFViewer({ pdfData, onClear }) {
       {/* Clear Button */}
       <div className="flex justify-center mt-10">
         <button
-          className="bg-[#A6192E] text-white px-5 py-2 rounded-lg hover:bg-[#7A1222]"
+          className="bg-[#A6192E] text-white font-bold px-5 py-3 rounded-4xl hover:bg-[#7A1222]"
           onClick={onClear}
           style={{ fontFamily: "var(--font-titillium)" }}
           
         >
           Create Another Report
+        <span className="ml-5">{">"}</span>
         </button>
       </div>
 
