@@ -36,27 +36,30 @@ export default function LogoutButton() {
       {showPopup && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-2 w-96 bg-white border border-gray-300 rounded shadow-md flex items-center p-3 gap-3 z-50"
+          className="absolute top-14 right-10 w-96 z-[99999] bg-gradient-to-r from-white via-[#DFF6FF]  to-[#DFF6FF] shadow-lg rounded-2xl flex items-center p-5 gap-3 pointer-events-auto"
+
         >
           {/* Icon */}
-          <ExclamationCircleIcon className="w-6 h-6 text-blue-600 flex-shrink-0" />
+          <ExclamationCircleIcon className="w-8 h-10 text-[#005EB8]" />
 
           {/* Message */}
-          <span className="flex-1 text-sm text-gray-800">
+          <span className="flex-1 text-sm font-bold text-black" style={{ fontFamily: "var(--font-titillium)" }}>
             Are you sure you want to log out?
           </span>
 
           {/* Buttons */}
           <div className="flex gap-2">
             <button
-              className="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700"
+              className="bg-[#005EB8] text-white font-semibold px-4 py-1 rounded text-sm hover:bg-[#004D96]"
               onClick={handleLogout}
+              style={{ fontFamily: "var(--font-titillium)" }}
             >
               Accept
             </button>
             <button
-              className="bg-gray-200 text-gray-800 px-4 py-1 rounded text-sm hover:bg-gray-300"
+              className="bg-white outline-1 text-[#005EB8] font-semibold px-4 py-1 rounded text-sm hover:bg-[#004D96] hover:text-white"
               onClick={() => setShowPopup(false)}
+              style={{ fontFamily: "var(--font-titillium)" }}
             >
               Cancel
             </button>
