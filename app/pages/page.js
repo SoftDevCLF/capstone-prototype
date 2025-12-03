@@ -15,7 +15,6 @@ export default function Page() {
       <Navbar/>
       <h1>Reports</h1>
       <ReportDropdown/>
-      <p>Select Date Range: </p>
       <Calendar/>
       <Footer/>
     </main>
