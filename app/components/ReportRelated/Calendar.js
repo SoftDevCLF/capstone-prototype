@@ -7,13 +7,19 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useState } from "react";
 
 
-export default function CalenderDate() {
+export default function CalenderDate({startDate, setStartDate, endDate, setEndDate }) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   //Define function 
   const handleButtonClick = () => {
     setShowCalendar(!showCalendar);
   };
+
+  // The parent report page will hold the selected startDate and endDate.
+  // These will be passed down to this component via props (setStartDate, setEndDate).
+  // When the user selects dates, the parent can use startDate and endDate
+  // along with selectedReport to fetch the PDF from the backend API
+  
 
 return (
   
@@ -22,7 +28,6 @@ return (
   {/* Button */}
   <div className="px-4 py-3">
     <button onClick={handleButtonClick} className="px-6 py-3 bg-white font-bold border text-[#0C2340] hover:bg-[#0C2340] hover:text-white rounded-4xl" style={{ fontFamily: "var(--font-titillium)" }}>
-      
       Calendar
     <span className="ml-5">{">"}</span> 
     </button>
@@ -32,7 +37,17 @@ return (
   {showCalendar && (
     <div className="w-auto"> 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar />
+         {/* Start Date */}
+        <DateCalendar
+        value={startDate}
+        onChange={(newDate) => setStartDate(newDate)}
+        />
+         {/* End Date*/}
+        <DateCalendar
+        value={endDate}
+        onChange={(newDate) => setEndDate(newDate)}
+        />
+
       </LocalizationProvider>
     </div>
     )}
