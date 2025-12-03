@@ -3,6 +3,8 @@
 //Functionality to display a PDF preview will be created here
 import dynamic from "next/dynamic";
 import { pdfjs } from "react-pdf";
+import { useEffect } from "react";
+
 
 // Disable SSR for react-pdf components
 const Document = dynamic(
@@ -15,10 +17,14 @@ const Page = dynamic(
   { ssr: false }
 );
 
-//To Render PDF
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function PDFViewer({ pdfData, onClear }) {
+
+  // Ensure pdfjs worker is set only in the browser
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+  }, []);
+  
   return (
     <div className="w-full bg-white shadow-md border rounded-xl p-6">
 
