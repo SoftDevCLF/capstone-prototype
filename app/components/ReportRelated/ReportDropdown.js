@@ -1,18 +1,20 @@
 "use client";
 //Drop down to select report type will be created here
 
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectSmall() {
-  const [report, setReport] = React.useState('');
+export default function SelectSmall({ report, setReport }) {
+
 
   const handleChange = (event) => {
     setReport(event.target.value);
   };
+  //Anna here we will call an API
+  // fetch(`/api/reports?type=${event.target.value}&start=${startDate}&end=${endDate}`)
+  //AND pass PDF or CSV to viewer component 
 
   return (
     <div> 
@@ -26,6 +28,7 @@ export default function SelectSmall() {
         label="Report"
         onChange={handleChange}
       >
+        {/*Dropdown component*/}
         <MenuItem value="Sensor Status" style={{ fontFamily: "var(--font-titillium)" }}>Sensor Status</MenuItem>
         <MenuItem value="Inner Building Temperature" style={{ fontFamily: "var(--font-titillium)" }}>Inner Building Temperature</MenuItem>
         <MenuItem value="Energy Generated" style={{ fontFamily: "var(--font-titillium)" }}>Energy Generated</MenuItem>
