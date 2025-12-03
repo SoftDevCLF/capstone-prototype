@@ -17,8 +17,7 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* Center text */}
-        <p className="text-sm text-center flex-grow">
+        <p className="text-sm text-center grow">
           Green Building Technology Access Centre - SAIT
         </p>
 
