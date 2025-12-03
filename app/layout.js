@@ -1,5 +1,17 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Titillium_Web } from "next/font/google";
 import "./globals.css";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700", "900"],
+  variable: "--font-dm-sans",
+});
+const titillium = Titillium_Web({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700", "900"],
+  variable: "--font-titillium",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,9 +31,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${dmSans.variable} ${titillium.variable} antialiased`}>
         {children}
       </body>
     </html>
