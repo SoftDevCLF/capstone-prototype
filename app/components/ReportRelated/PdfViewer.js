@@ -1,16 +1,35 @@
+"use client";
+
 //Functionality to display a PDF preview will be created here
-//ADD PRINT AND DOWNLOAD BUTTONS
-import { Document, Page, pdfjs } from 'react-pdf';
+import dynamic from "next/dynamic";
+import { pdfjs } from "react-pdf";
+
+// Disable SSR for react-pdf components
+const Document = dynamic(
+  () => import("react-pdf").then((mod) => mod.Document),
+  { ssr: false }
+);
+
+const Page = dynamic(
+  () => import("react-pdf").then((mod) => mod.Page),
+  { ssr: false }
+);
 
 //To Render PDF
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-export default function PDFViewer({ pdfData, onClear}) {
+export default function PDFViewer({ pdfData, onClear }) {
   return (
-  <div className="w-full flex flex-col items-center">
-    <div className="md:w-[800px] min-h-[200px] p-6 bg-[#EDEDF0] border border-gray-200">
+    <div className="w-full bg-white shadow-md border rounded-xl p-6">
+
+      <h2 className="text-xl text-center my-2 font-semibold" style={{ fontFamily: "var(--font-titillium)" }}>
+        Report Preview
+      </h2>
+
+      {/* Pdf Viewer */}
+      <div className="bg-gray-100 border rounded-lg p-4 min-h-[500px] flex justify-center">
         {!pdfData && (
-          <div className="h-[700px] overflow-y-auto p-3 text-center">
+          <div className="text-gray-500" style={{ fontFamily: "var(--font-titillium)" }}>
             No report generated yet.
           </div>
         )}
@@ -18,40 +37,39 @@ export default function PDFViewer({ pdfData, onClear}) {
         {pdfData && (
           <Document
             file={pdfData}
-            loading={<div className="text-center text-gray-500">Loading PDF…</div>}
-            error={<div className="text-center text-red-600">Failed to load PDF.</div>}
+            loading={<div className="text-gray-500 " style={{ fontFamily: "var(--font-titillium)" }} >Loading PDF…</div>}
+            error={<div className="text-red-600" style={{ fontFamily: "var(--font-titillium)" }}>Failed to load PDF.</div>}
           >
             <Page pageNumber={1} />
           </Document>
-          
         )}
       </div>
 
-      
-      
-      {/* BUTTONS UNDERNEATH */}
-      <div className="flex justify-between w-full md:w-[800px] mt-6">
-        {/*Print Report Button*/}
-        <button 
-          className="bg-[#005EB8] text-white px-10 py-2.5 rounded-4xl hover:bg-[#004D96]"
+      {/* Header & Buttons  */}
+      <div className="flex justify-center my-5 items-center mb-4">
+        <div className="flex gap-3">
+          <button className="bg-[#005EB8] text-white px-5 py-2 rounded-lg hover:bg-[#004D96]" style={{ fontFamily: "var(--font-titillium)" }}>
+            Print
+          </button>
+
+          <button className="bg-[#6D2077] text-white px-5 py-2 rounded-lg hover:bg-[#571A5F]" style={{ fontFamily: "var(--font-titillium)" }}>
+            Download
+          </button>
+        </div>
+      </div>
+
+      {/* Clear Button */}
+      <div className="flex justify-center mt-10">
+        <button
+          className="bg-[#A6192E] text-white px-5 py-2 rounded-lg hover:bg-[#7A1222]"
+          onClick={onClear}
+          style={{ fontFamily: "var(--font-titillium)" }}
+          
         >
-          Print 
-        </button>
-         {/*Download Report Button*/}
-        <button 
-          className="bg-[#6D2077] text-white px-7 py-2.5 rounded-4xl hover:bg-[#571A5F]"
-        >
-          Download
+          Create Another Report
         </button>
       </div>
-        {/*Create Another Report*/}
-        <button 
-          className="bg-[#A6192E] text-white px-4 py-2.5 my-5 rounded-4xl hover:bg-[#7A1222]"
-          onClick={onClear}
-        >
-          Create Another Report 
-        </button>
-        
+
     </div>
   );
 }

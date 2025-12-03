@@ -16,9 +16,9 @@ export default function SelectSmall() {
 
   return (
     <div> 
-      <p className="px-5 font-bold"> Select The Report Type:</p>
+      <p className="px-5 font-bold" style={{ fontFamily: "var(--font-titillium)" }}> Select The Report Type:</p>
     <FormControl sx={{ m: 2, minWidth: 250}} size="small">
-      <InputLabel id="demo-select-small-label">Select Report Type</InputLabel>
+      <InputLabel id="demo-select-small-label" style={{ fontFamily: "var(--font-titillium)" }}>Select Report Type</InputLabel>
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
@@ -26,10 +26,10 @@ export default function SelectSmall() {
         label="Report"
         onChange={handleChange}
       >
-        <MenuItem value="Sensor Status">Sensor Status</MenuItem>
-        <MenuItem value="Inner Building Temperature">Inner Building Temperature</MenuItem>
-        <MenuItem value="Energy Generated">Energy Generated</MenuItem>
-        <MenuItem value="Energy Consumed">Energy Consumed</MenuItem>
+        <MenuItem value="Sensor Status" style={{ fontFamily: "var(--font-titillium)" }}>Sensor Status</MenuItem>
+        <MenuItem value="Inner Building Temperature" style={{ fontFamily: "var(--font-titillium)" }}>Inner Building Temperature</MenuItem>
+        <MenuItem value="Energy Generated" style={{ fontFamily: "var(--font-titillium)" }}>Energy Generated</MenuItem>
+        <MenuItem value="Energy Consumed" style={{ fontFamily: "var(--font-titillium)" }}>Energy Consumed</MenuItem>
         
       </Select>
     </FormControl>

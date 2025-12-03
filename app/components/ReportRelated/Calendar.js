@@ -21,7 +21,8 @@ return (
       <p className="px-5 py-2 font-bold">Set Date: </p>
   {/* Button */}
   <div className="px-4 py-3">
-    <button onClick={handleButtonClick} className="px-6 py-2.5 bg-white border text-[#0C2340] hover:bg-[#0C2340] hover:text-white rounded-4xl">
+    <button onClick={handleButtonClick} className="px-6 py-2.5 bg-white border text-[#0C2340] hover:bg-[#0C2340] hover:text-white rounded-4xl" style={{ fontFamily: "var(--font-titillium)" }}>
+      
       Calendar 
     </button>
   </div>
@@ -38,6 +39,7 @@ return (
     <div className="px-4 py-3">
       <button 
         className="bg-[#EE3124] text-white px-4 py-2.5 rounded-4xl hover:bg-[#8D1527]"
+        style={{ fontFamily: "var(--font-titillium)" }}
       >
         Create New Report
       </button>
