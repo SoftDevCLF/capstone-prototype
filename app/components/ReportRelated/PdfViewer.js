@@ -11,8 +11,8 @@ const Document = dynamic(() => import("react-pdf").then((mod) => mod.Document), 
 const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
 
 export default function PDFViewer({ pdfData, onClear }) {
-  //The pdf data will either be a URL to a PDF file, file object, or null
-  if (!pdfData) return <p>No PDF to display</p>
+  // //The pdf data will either be a URL to a PDF file, file object, or null
+  
 
   return (
     <div className="w-full bg-white shadow-md border rounded-xl p-6">
