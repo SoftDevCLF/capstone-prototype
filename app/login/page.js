@@ -9,8 +9,7 @@ export default function LoginPage() {
       <Header />
       <Navbar />
 
-      <main className="flex-grow flex items-center justify-center">
-        {/* Dynamic margins here */}
+      <main className="grow flex items-center justify-center">
         <div className="container mx-auto px-4 py-10 flex justify-center">
           <LoginForm />
         </div>
