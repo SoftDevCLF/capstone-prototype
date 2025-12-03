@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Modal from "./modal";
+import { checkPassword } from "../_services/sign-in";
+
 export default function LoginForm() {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
@@ -37,12 +39,17 @@ export default function LoginForm() {
     setEmployeeNumber("");
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!validate()) {
       return;
     }
-    alert(`Logging in with Employee Number: ${employeeNumber}`);
+    // alert(`Logging in with Employee Number: ${employeeNumber}`);
     // Kiera: here is where you'd handle actual login logic, apparently using an API, but still you can modify as needed
+    if(await checkPassword(employeeNumber, password) == true){
+      console.log("successful login");
+    }else{
+      console.log("login unsuccessful");
+    }
   };
 
   return (
