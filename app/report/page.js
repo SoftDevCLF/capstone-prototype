@@ -12,9 +12,15 @@ export default function Page() {
 
 const [pdfData, setPdfData] = useState(null)
 
+//Logout handler
+  const handleLogout = () => {
+    // TODO: add actual logout logic (clear session, redirect, etc.)
+    console.log("User has successfully logged out");
+  };
+
 return (
     <main className="bg-gray-50 min-h-screen">
-      <EmptyHeader />
+      <EmptyHeader onLogout={handleLogout} />
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-10">
