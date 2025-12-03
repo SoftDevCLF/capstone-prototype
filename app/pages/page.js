@@ -33,7 +33,8 @@ return (
       
       {/* RIGHT SIDE: PDF Viewer */}
       <div className="px-25">
-        <PDFViewer pdfData={pdfData} />
+        <PDFViewer pdfData={pdfData}
+        onClear={() => setPdfData(null) } />
       </div>
 
     </div>
