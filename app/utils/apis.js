@@ -1,26 +1,61 @@
-// TODO: Add API call to fetch PDF URL for a selected report
-// Example: export async function getReportPdf(reportId) { ... }
+// utils/api.js
+// ------------------------------------------------------------------
+// Central API utility for your Python FastAPI report backend
+// ------------------------------------------------------------------
 
-// TODO: Decide whether backend returns:
-// 1) A direct PDF URL, OR
-// 2) A PDF blob (binary file)
-// Handle both cases.
+const BASE_URL = "http://127.0.0.1:8000"; // The actual running backend root
 
-// TODO: If backend returns a blob:
-// - Convert blob to object URL
-// - Return object URL for printing/downloading
+// ---------------------------------------------
+// Generic GET helper
+// ---------------------------------------------
+async function get(endpoint) {
+  const response = await fetch(`${BASE_URL}${endpoint}`);
 
-// TODO: Add try/catch around all API requests
-// - Log errors
-// - Return null or throw custom error
+  if (!response.ok) {
+    throw new Error(`GET ${endpoint} failed: ${response.status}`);
+  }
 
-// TODO: Add API base URL using NEXT_PUBLIC_API
-// const BASE_URL = process.env.NEXT_PUBLIC_API;
+  return response.json();
+}
 
-// TODO: Add authorization headers later if needed
+// ---------------------------------------------
+// GET PDF helper (returns blob)
+// ---------------------------------------------
+async function getPDF(endpoint) {
+  const response = await fetch(`${BASE_URL}${endpoint}`);
 
-// TODO: Test request with a placeholder reportId
-// - Check browser network tab for correct response type
+  if (!response.ok) {
+    throw new Error(`GET PDF ${endpoint} failed: ${response.status}`);
+  }
 
-// TODO: Export all functions so components can call them:
-// export { getReportPdf };
+  return response.blob(); // PDF must be blob
+}
+
+// ------------------------------------------------------------------
+// REPORT ENDPOINTS
+// ------------------------------------------------------------------
+
+// Temperature JSON fetch
+export async function getTemperature(start, end) {
+  return get(`/report/temperature?start=${start}&end=${end}`);
+}
+
+// Energy generated JSON fetch
+export async function getEnergyGenerated(start, end) {
+  return get(`/report/energy-generated?start=${start}&end=${end}`);
+}
+
+// Energy consumed JSON fetch
+export async function getEnergyConsumed(start, end) {
+  return get(`/report/energy-consumed?start=${start}&end=${end}`);
+}
+
+// Energy generated JSON fetch
+export async function getSensorStatus(start, end) {
+  return get(`/report/sensor=status?start=${start}&end=${end}`);
+}
+
+
+
+
+

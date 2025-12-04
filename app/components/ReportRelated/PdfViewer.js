@@ -1,78 +1,65 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { pdfjs } from "react-pdf";
+import { useEffect, useState } from "react";
 
-//For PDF rendering
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+export default function PDFViewer({ startDate, endDate, reportType, onClear }) {
+  const [pdfUrl, setPdfUrl] = useState(null);
 
-//Import Document and Page to avoid SSR issues
-const Document = dynamic(() => import("react-pdf").then((mod) => mod.Document), { ssr: false });
-const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
+  useEffect(() => {
+    async function fetchPdf() {
+      if (!startDate || !endDate) return;
 
-export default function PDFViewer({ pdfData, onClear }) {
-  // //The pdf data will either be a URL to a PDF file, file object, or null
-  
-  // The backend (Python) will generate the PDF based on the selected report type
-  // and date range. Once generated, it will be sent to the frontend as:
-  // - A URL (e.g., /api/reports?type=EnergyGenerated&start=2025-12-01&end=2025-12-03)
-  // - OR a Blob (binary PDF content fetched via fetch API)
-  // The parent report page will then pass that data as the 'pdfData' prop.
+      try {
+        // Dynamically use the reportType in the URL
+        const url = `http://127.0.0.1:8000/report/${reportType}/pdf?start=${startDate.format(
+          "YYYY-MM-DD"
+        )}&end=${endDate.format("YYYY-MM-DD")}`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch PDF");
+
+        const blob = await response.blob();
+        setPdfUrl(URL.createObjectURL(blob));
+      } catch (err) {
+        console.error(err);
+        setPdfUrl(null);
+      }
+    }
+
+
+    fetchPdf();
+
+    return () => {
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    };
+  }, [startDate, endDate, reportType]);
 
   return (
     <div className="w-full bg-white shadow-md border rounded-xl p-6">
+      <h2 className="text-xl text-center my-2 font-semibold">Report Preview</h2>
 
-      <h2 className="text-xl text-center my-2 font-semibold" style={{ fontFamily: "var(--font-titillium)" }}>
-        Report Preview
-      </h2>
-
-      {/* Pdf Viewer */}
       <div className="bg-gray-100 border rounded-lg p-4 min-h-[500px] flex justify-center">
-        {!pdfData && (
-          <div className="text-gray-500" style={{ fontFamily: "var(--font-titillium)" }}>
-            No report generated yet.
-          </div>
-        )}
+        {!pdfUrl && <div className="text-gray-500">No report generated yet.</div>}
 
-        {pdfData && (
-          <Document
-            file={pdfData}
-            loading={<div className="text-gray-500 " style={{ fontFamily: "var(--font-titillium)" }} >Loading PDF…</div>}
-            error={<div className="text-red-600" style={{ fontFamily: "var(--font-titillium)" }}>Failed to load PDF.</div>}
-          >
-            <Page pageNumber={1} />
-          </Document>
+        {pdfUrl && (
+          <iframe
+            src={pdfUrl}
+            width="100%"
+            height="500px"
+            style={{ border: "none" }}
+            title="Report PDF"
+          />
         )}
       </div>
 
-      {/* Header & Buttons  */}
-      <div className="flex justify-center my-5 items-center mb-4">
-        <div className="flex gap-3">
-          <button className="bg-[#005EB8] text-white font-bold px-8 py-3 rounded-4xl hover:bg-[#004D96]" style={{ fontFamily: "var(--font-titillium)" }}>
-            Print
-          <span className="ml-5">{">"}</span>
-          </button>
-
-          <button className="bg-[#6D2077] text-white font-bold px-7 py-3 rounded-4xl hover:bg-[#571A5F]" style={{ fontFamily: "var(--font-titillium)" }}>
-            Download
-          <span className="ml-5">{">"}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Clear Button */}
       <div className="flex justify-center mt-10">
         <button
           className="bg-[#A6192E] text-white font-bold px-5 py-3 rounded-4xl hover:bg-[#7A1222]"
           onClick={onClear}
-          style={{ fontFamily: "var(--font-titillium)" }}
-          
         >
-          Create Another Report
-        <span className="ml-5">{">"}</span>
+          Create Another Report <span className="ml-5">{">"}</span>
         </button>
       </div>
-
     </div>
   );
 }

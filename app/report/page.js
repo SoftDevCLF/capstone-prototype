@@ -1,78 +1,113 @@
 "use client";
 
 import ReportDropdown from "../components/ReportRelated/ReportDropdown";
-import Calendar from "../components/ReportRelated/Calendar";
+import PDFViewer from "../components/ReportRelated/PdfViewer";
 import Footer from "../components/footer";
 import Navbar from "../components/nav-bar";
 import EmptyHeader from "../components/empty-header";
-import PDFViewer from "../components/ReportRelated/PdfViewer";
+import Calendar from "../components/ReportRelated/Calendar";
+
 import { useState } from "react";
+import dayjs from "dayjs";
+
 
 export default function Page() {
+  const [selectedReport, setSelectedReport] = useState("");
 
-  //State variables
-const [selectedReport, setSelectedReport] = useState("");
-const [pdfData, setPdfData] = useState(null);
-const [startDate, setStartDate] = useState(null);
-const [endDate, setEndDate] = useState(null);
+  // Start/end dates for the report
+  const [startDate, setStartDate] = useState(dayjs().subtract(7, "day"));
+  const [endDate, setEndDate] = useState(dayjs());
 
-//Logout handler
-  const handleLogout = () => {
-    // TODO: add actual logout logic (clear session, redirect, etc.)
-    console.log("User has successfully logged out");
+  // Used to reset the PDFViewer when "Create Another Report" is clicked
+  const [showViewer, setShowViewer] = useState(true);
+
+  const reportEndpoints = {
+    "Inner Building Temperature": "temperature",
+    "Energy Generated": "energy-generated",
+    "Equipment Consumed": "energy-consumed",
+    "Sensor Status": "sensor-status",
   };
 
-//Report handler
- const handleCreateReport = async () => {
-    // TODO: Connect to your Python backend
-    // Example API endpoint: /api/reports?type=...&start=...&end=...
-    // Convert startDate/endDate to string format if needed
-    console.log("Fetching report for:", selectedReport, startDate, endDate);
- try {
-      // Example fetch (replace URL with your backend endpoint)
+  
+  const handleLogout = () => {
+    console.log("User logged out");
+  };
+
+  const handleClear = () => {
+    setShowViewer(false);
+    setTimeout(() => setShowViewer(true), 10); // force remount
+  };
+
+  const handleCreateReport = async () => {
+    if (!startDate || !endDate || !selectedReport) return;
+
+    const reportKey = reportEndpoints[selectedReport];
+    if (!reportKey) {
+      console.error("Unknown report type");
+      return;
+    }
+
+    try {
+      const start = startDate.format("YYYY-MM-DD");
+      const end = endDate.format("YYYY-MM-DD");
+
       const response = await fetch(
-        `/api/reports?type=${encodeURIComponent(selectedReport)}&start=${startDate}&end=${endDate}`
+        `http://127.0.0.1:8000/report/${reportKey}/pdf?start=${start}&end=${end}`
       );
 
-      if (!response.ok) throw new Error("Failed to fetch report");
+      if (!response.ok) throw new Error("Failed to fetch PDF");
 
-      const blob = await response.blob(); // assuming backend returns PDF
+      const blob = await response.blob();
       const pdfUrl = URL.createObjectURL(blob);
       setPdfData(pdfUrl);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
+   // Pass reportKey to PDFViewer to make sure the correct endpoint is used for download/printing
+  const currentReportKey = reportEndpoints[selectedReport] || "";
 
-return (
+
+
+
+
+  return (
     <main className="bg-gray-50 min-h-screen">
       <EmptyHeader onLogout={handleLogout} />
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold mb-10" style={{ fontFamily: "var(--font-titillium)" }}>Reports</h1>
+        <h1 className="text-3xl font-bold mb-10" style={{ fontFamily: "var(--font-titillium)" }}>
+          Reports
+        </h1>
 
-        {/* MAIN GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
-          {/* LEFT CARD */}
+          {/* LEFT: Dropdown + Calendar */}
           <div className="col-span-1 p-6 bg-white shadow-md rounded-xl border space-y-6">
             <ReportDropdown report={selectedReport} setReport={setSelectedReport} />
             <Calendar
-              startDate={startDate} 
-              setStartDate={setStartDate} 
-              endDate={endDate} 
-              setEndDate={setEndDate} 
-              onCreateReport={handleCreateReport}
-             />
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            onCreateReport={handleCreateReport}
+/>
 
-
+            
+            {/* PDFViewer will fetch PDF from backend directly */}
           </div>
 
-          {/* RIGHT SIDE: PDF VIEWER */}
+          {/* RIGHT: PDF Viewer */}
           <div className="col-span-2">
-            <PDFViewer pdfData={pdfData} onClear={() => setPdfData(null)} />
+            {showViewer && (
+              <PDFViewer
+                reportType={selectedReport.toLowerCase().replace(/\s/g, "-")} // map to backend endpoint if needed
+                onClear={handleClear}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            )}
           </div>
         </div>
       </div>
