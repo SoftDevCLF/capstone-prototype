@@ -1,14 +1,29 @@
 "use client";
 import { useState } from "react";
 import Modal from "./modal";
-import { checkPassword } from "../_services/sign-in";
+// import { user, checkPassword } from "../_services/sign-in";
+
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
+import { useNavigate } from "react-router-dom";
+
+import { useRouter } from "next/navigation";
+
+import { useUserAuth } from "../_utils/auth-context";
+
 
 export default function LoginForm() {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [employeeNumber, setEmployeeNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const user = useUserAuth();
+  const auth = getAuth();
+  // const navigate = useNavigate();
+  const router = useRouter();
+
 
   const validate = () => {
     const newErrors = {};
@@ -23,7 +38,17 @@ export default function LoginForm() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleForgotSubmit = () => {
+
+  // for "forgot password"
+  const handleForgotSubmit = async () => {
+    try {
+      console.log(email);
+      await sendPasswordResetEmail(auth, email)
+    }catch (error){
+      console.log(error.message)
+    }
+
+
     alert(
       `If employee number ${employeeNumber} exists, an email will be sent with your password.`
     );
@@ -40,16 +65,26 @@ export default function LoginForm() {
   };
 
   const handleLogin = async () => {
-    if (!validate()) {
-      return;
+    // if (!validate()) {
+    //   return;
+    // }
+    
+
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      console.log("Successful");
+      // console.log(user.email);
+      // navigate("../temp_page/")
+      router.push("../temp_page")
+    } catch (error){
+      console.log("Login unsuccessful: " + error.message)
     }
-    // alert(`Logging in with Employee Number: ${employeeNumber}`);
-    // Kiera: here is where you'd handle actual login logic, apparently using an API, but still you can modify as needed
-    if(await checkPassword(employeeNumber, password) == true){
-      console.log("successful login");
-    }else{
-      console.log("login unsuccessful");
-    }
+
+
+
+
+
   };
 
   return (
@@ -76,9 +111,9 @@ export default function LoginForm() {
       </label>
       <input
         type="text"
-        placeholder="Enter your Employee Number"
-        value={employeeNumber}
-        onChange={(e) => setEmployeeNumber(e.target.value)}
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         className="w-full border px-3 py-2 border-gray-300 rounded-lg my-4 focus:outline-none focus:border-blue-500"
       />
 
@@ -138,9 +173,9 @@ export default function LoginForm() {
         >
           <input
             type="text"
-            placeholder="Enter your Employee Number"
-            value={employeeNumber}
-            onChange={(e) => setEmployeeNumber(e.target.value)}
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
           <button
