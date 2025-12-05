@@ -4,8 +4,6 @@ import Modal from "./modal";
 
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
 import { useRouter } from "next/navigation";
-import { useUserAuth } from "../_utils/auth-context";
-
 
 export default function LoginForm() {
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -68,7 +66,8 @@ export default function LoginForm() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       console.log("Successful");
-      router.push("../temp_page")
+      // router.push("../temp_page")
+      router.push("../report")
     } catch (error){
       console.log("Login unsuccessful: " + error.message)
     }
