@@ -1,13 +1,9 @@
 "use client";
 import { useState } from "react";
 import Modal from "./modal";
-// import { user, checkPassword } from "../_services/sign-in";
 
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
-import { useNavigate } from "react-router-dom";
-
 import { useRouter } from "next/navigation";
-
 import { useUserAuth } from "../_utils/auth-context";
 
 
@@ -19,11 +15,8 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const user = useUserAuth();
   const auth = getAuth();
-  // const navigate = useNavigate();
   const router = useRouter();
-
 
   const validate = () => {
     const newErrors = {};
@@ -50,13 +43,14 @@ export default function LoginForm() {
 
 
     alert(
-      `If employee number ${employeeNumber} exists, an email will be sent with your password.`
+      `An email has been sent to ${email} with a link to reset your password`
     );
     setShowForgotModal(false);
-    setEmployeeNumber("");
+    setEmail("");
   };
 
   const handleRequestSubmit = () => {
+    window.location.href = 'mailto:kiera.johnson@edu.sait.ca?subject=Staff Access Request'
     alert(
       `Access request for employee number ${employeeNumber} sent to admin.`
     );
@@ -74,8 +68,6 @@ export default function LoginForm() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       console.log("Successful");
-      // console.log(user.email);
-      // navigate("../temp_page/")
       router.push("../temp_page")
     } catch (error){
       console.log("Login unsuccessful: " + error.message)
@@ -195,8 +187,8 @@ export default function LoginForm() {
           <input
             type="text"
             placeholder="Enter your Employee Number"
-            value={employeeNumber}
-            onChange={(e) => setEmployeeNumber(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
           <button

@@ -17,7 +17,6 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(false);
     });
     return () => unsubscribe();
-//   }, [user]);
     }, []);
 
 
