@@ -1,7 +1,6 @@
 "use client";
-
 import Image from "next/image";
-import LogoutButton  from "./LogoutButton";
+import LogoutButton  from "./ReportRelated/LogoutButton";
 import { usePathname } from "next/navigation";
 
 export default function EmptyHeader() {
@@ -14,7 +13,6 @@ export default function EmptyHeader() {
 
         {/* Only show logout button if NOT on the login page */}
         {!isLoginPage && <LogoutButton />}
-      
       </header>
   );
 }

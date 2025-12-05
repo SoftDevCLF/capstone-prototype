@@ -1,31 +1,32 @@
-// Central API utility for your Python FastAPI report backend
+// Central API utility Python FastAPI report backend
 
-const BASE_URL = "http://127.0.0.1:8000"; // The actual running backend root
+//Constant to hold the connection to the backend root
+const BASE_URL = "http://127.0.0.1:8000"; 
 
 
-// Generic GET helper
+// Generic GET helper to retrieve endpoints from the backend
 async function get(endpoint) {
   const response = await fetch(`${BASE_URL}${endpoint}`);
 
   if (!response.ok) {
     throw new Error(`GET ${endpoint} failed: ${response.status}`);
   }
-
   return response.json();
 }
 
-// GET PDF helper (returns blob)
+// GET PDF helper returns blob (binary large object)
 async function getPDF(endpoint) {
   const response = await fetch(`${BASE_URL}${endpoint}`);
 
   if (!response.ok) {
     throw new Error(`GET PDF ${endpoint} failed: ${response.status}`);
   }
-
-  return response.blob(); // PDF must be blob
+  return response.blob(); 
 }
 
 // REPORT ENDPOINTS
+
+//CALENDAR
 // Temperature JSON fetch CALENDAR
 export async function getTemperature(start, end) {
   return get(`/report/temperature?start=${start}&end=${end}`);
@@ -46,7 +47,7 @@ export async function getSensorStatus(start, end) {
   return get(`/report/sensor-status?start=${start}&end=${end}`);
 }
 
-//Last 7 days
+//LAST 7 DAYS
 // Temperature JSON fetch for last 7 days
 export async function getTemperatureLast7() {
   return get("/report/temperature/last7");
@@ -66,7 +67,7 @@ export async function getSensorStatusLast7() {
   return get("/report/sensor-status/last7");
 }
 
-//Last 30
+//lAST 30 DAYS
 // Temperature JSON fetch for last 30 days
 export async function getTemperatureLast30() {
   return get("/report/temperature/last30");

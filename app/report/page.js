@@ -1,89 +1,28 @@
 "use client";
-
 import { useState } from "react";
-import dayjs from "dayjs";
 import ReportDropdown from "../components/ReportRelated/ReportDropdown";
 import Calendar from "../components/ReportRelated/Calendar";
 import PDFViewer from "../components/ReportRelated/PdfViewer";
 import Navbar from "../components/nav-bar";
 import EmptyHeader from "../components/empty-header";
 import Footer from "../components/footer";
+import useReport from "../hooks/useReports";
 
 export default function Page() {
-  const [selectedReport, setSelectedReport] = useState("");
 
-  // Start/end dates
+  //State variables
+  const [selectedReport, setSelectedReport] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [showViewer, setShowViewer] = useState(true); // Control PDFViewer re-render
 
-  // PDF blob
-  const [pdfBlob, setPdfBlob] = useState(null);
+  //Custom hook
+  const { pdfBlob, errorMessage, createReport, clearReport} = useReport();
 
-  // Error message state
-  const [errorMessage, setErrorMessage] = useState("");
-
-  // Control PDFViewer re-render
-  const [showViewer, setShowViewer] = useState(true);
-
-  const reportEndpoints = {
-    "Inner Building Temperature": "temperature",
-    "Energy Generated": "energy-generated",
-    "Energy Consumed": "energy-consumed",
-    "Sensor Status": "sensor-status",
-  };
-
-  const MIN_YEAR = 2023;
-  const MAX_YEAR = 2025;
-
-  // handleCreateReport now only triggers when the user clicks the button
-  const handleCreateReport = async (start, end, report) => {
-    setErrorMessage(""); // reset previous errors
-
-    if (!start || !end) {
-      setErrorMessage("Please select a button option or a start and end date from the calendar.");
-      return;
-    }
-
-    const startYear = start.year();
-    const endYear = end.year();
-
-    if (startYear < MIN_YEAR || endYear > MAX_YEAR) {
-      setErrorMessage(`Date out of range. Data only available from ${MIN_YEAR} to ${MAX_YEAR}.`);
-      return;
-    }
-
-    if (!report) {
-      setErrorMessage("Please select a report type.");
-      return;
-    }
-
-    try {
-      const startStr = start.format("YYYY-MM-DD");
-      const endStr = end.format("YYYY-MM-DD");
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/report/${reportEndpoints[report]}/pdf?start=${startStr}&end=${endStr}`
-      );
-
-      if (!response.ok) {
-        setErrorMessage("Failed to generate report.");
-        return;
-      }
-
-      const blob = await response.blob();
-      setPdfBlob(blob);
-    } catch (err) {
-      console.error(err);
-      setErrorMessage("Something went wrong!");
-    }
-  };
-
+  //Event Handler Functions
   const handleLogout = () => console.log("User logged out");
-
   const handleClear = () => {
-    setPdfBlob(null);
-    setShowViewer(false);
-    setTimeout(() => setShowViewer(true), 10);
+    clearReport(); //clears report
   };
 
   return (
@@ -95,7 +34,6 @@ export default function Page() {
         <h1 className="text-3xl font-bold mb-10  dark:text-black" style={{ fontFamily: "var(--font-titillium)" }}>
           Reports
         </h1>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* LEFT: Dropdown + Calendar */}
           <div className="col-span-1 p-6 bg-white shadow-md rounded-xl border space-y-6">
@@ -107,7 +45,8 @@ export default function Page() {
               setStartDate={setStartDate}
               setEndDate={setEndDate}
               selectedReport={selectedReport}
-              onCreateReport={handleCreateReport} // only triggers on button click inside Calendar
+              onClearPDF={handleClear}
+              onCreateReport={createReport} // pass hook function
             />
 
             {/* Inline error message */}
@@ -122,7 +61,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-
       <Footer />
     </main>
   );

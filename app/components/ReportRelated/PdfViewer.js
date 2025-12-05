@@ -1,8 +1,9 @@
-+"use client";
-
+"use client";
 import { useEffect, useMemo } from "react";
 
 export default function PDFViewer({ pdfBlob, onClear }) {
+  
+  // Memoize the PDF URL so it only gets recreated when pdfBlob changes.
   const pdfUrl = useMemo(() => (pdfBlob ? URL.createObjectURL(pdfBlob) : null), [pdfBlob]);
 
   useEffect(() => {
@@ -11,8 +12,9 @@ export default function PDFViewer({ pdfBlob, onClear }) {
   }, [pdfUrl]);
 
   return (
+    // This container uses Tailwind CSS for styling while the PDF calendar/datepicker is from Material-UI
     <div className="w-full max-w-4xl mx-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6 space-y-6 dark:text-black">
-      <p className="text-center my-2 font-semibold" style={{ fontFamily: "var(--font-titillium)" }}>Preview</p>
+      <p className="text-center my-2 italic textfont-semibold" style={{ fontFamily: "var(--font-titillium)" }}>Preview</p>
 
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 min-h-[400px] flex justify-center items-center">
         {!pdfUrl && <div className="text-gray-500" style={{ fontFamily: "var(--font-titillium)" }}>No report generated yet.</div>}
