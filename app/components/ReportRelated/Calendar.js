@@ -122,7 +122,7 @@ const handleToggleCalendar = () => {
       type="button"
       onClick={() => onCreateReport(startDate, endDate, selectedReport)}
       
-      className="mt-4 bg-[#EE3124] text-white font-bold px-4 py-3 rounded-4xl hover:bg-[#8D1527]">
+      className="mt-4 bg-[#aa2f39] text-white font-bold px-4 py-3 rounded-4xl hover:bg-[#8D1527]">
       Create New Report <span className="ml-4">{">"}</span>
     </button>
     </div>
