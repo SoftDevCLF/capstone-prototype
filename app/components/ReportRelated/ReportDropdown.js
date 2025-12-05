@@ -18,7 +18,7 @@ export default function SelectSmall({ report, setReport }) {
 
   return (
     <div> 
-      <p className="px-5 font-bold" style={{ fontFamily: "var(--font-titillium)" }}> Select The Report Type:</p>
+      <p className="px-5 font-bold  dark:text-black" style={{ fontFamily: "var(--font-titillium)" }}> Select The Report Type:</p>
     <FormControl sx={{ m: 1.5, ml: 1, minWidth: 250}} size="small">
       <InputLabel id="demo-select-small-label" style={{ fontFamily: "var(--font-titillium)" }}>Select Report Type</InputLabel>
       <Select

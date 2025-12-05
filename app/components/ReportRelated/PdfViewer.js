@@ -11,7 +11,7 @@ export default function PDFViewer({ pdfBlob, onClear }) {
   }, [pdfUrl]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6 space-y-6">
+    <div className="w-full max-w-4xl mx-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6 space-y-6 dark:text-black">
       <p className="text-center my-2 font-semibold" style={{ fontFamily: "var(--font-titillium)" }}>Preview</p>
 
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 min-h-[400px] flex justify-center items-center">

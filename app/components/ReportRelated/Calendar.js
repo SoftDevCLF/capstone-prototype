@@ -76,7 +76,7 @@ const handleToggleCalendar = () => {
 
   return (
     <div className="flex flex-col items-start">
-      <p className="px-5 py-2 font-bold">Set Date:</p>
+      <p className="px-5 py-2 font-bold  dark:text-black">Set Date:</p>
 
 
       <button
