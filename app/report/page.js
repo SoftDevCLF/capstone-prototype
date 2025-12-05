@@ -40,7 +40,7 @@ export default function Page() {
     setErrorMessage(""); // reset previous errors
 
     if (!start || !end) {
-      setErrorMessage("Please select both start and end dates.");
+      setErrorMessage("Please select a button option or start and end date from the calendar.");
       return;
     }
 
