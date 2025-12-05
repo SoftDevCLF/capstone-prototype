@@ -1,12 +1,22 @@
 "use client";
 import { useState } from "react";
 import Modal from "./modal";
+
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth"
+import { useRouter } from "next/navigation";
+import { useUserAuth } from "../_utils/auth-context";
+
+
 export default function LoginForm() {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [employeeNumber, setEmployeeNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const auth = getAuth();
+  const router = useRouter();
 
   const validate = () => {
     const newErrors = {};
@@ -21,15 +31,26 @@ export default function LoginForm() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleForgotSubmit = () => {
+
+  // for "forgot password"
+  const handleForgotSubmit = async () => {
+    try {
+      console.log(email);
+      await sendPasswordResetEmail(auth, email)
+    }catch (error){
+      console.log(error.message)
+    }
+
+
     alert(
-      `If employee number ${employeeNumber} exists, an email will be sent with your password.`
+      `An email has been sent to ${email} with a link to reset your password`
     );
     setShowForgotModal(false);
-    setEmployeeNumber("");
+    setEmail("");
   };
 
   const handleRequestSubmit = () => {
+    window.location.href = 'mailto:kiera.johnson@edu.sait.ca?subject=Staff Access Request'
     alert(
       `Access request for employee number ${employeeNumber} sent to admin.`
     );
@@ -37,12 +58,25 @@ export default function LoginForm() {
     setEmployeeNumber("");
   };
 
-  const handleLogin = () => {
-    if (!validate()) {
-      return;
+  const handleLogin = async () => {
+    // if (!validate()) {
+    //   return;
+    // }
+    
+
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      console.log("Successful");
+      router.push("../temp_page")
+    } catch (error){
+      console.log("Login unsuccessful: " + error.message)
     }
-    alert(`Logging in with Employee Number: ${employeeNumber}`);
-    // Kiera: here is where you'd handle actual login logic, apparently using an API, but still you can modify as needed
+
+
+
+
+
   };
 
   return (
@@ -69,9 +103,9 @@ export default function LoginForm() {
       </label>
       <input
         type="text"
-        placeholder="Enter your Employee Number"
-        value={employeeNumber}
-        onChange={(e) => setEmployeeNumber(e.target.value)}
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         className="w-full border px-3 py-2 border-gray-300 rounded-lg my-4 focus:outline-none focus:border-blue-500"
       />
 
@@ -131,9 +165,9 @@ export default function LoginForm() {
         >
           <input
             type="text"
-            placeholder="Enter your Employee Number"
-            value={employeeNumber}
-            onChange={(e) => setEmployeeNumber(e.target.value)}
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
           <button
@@ -153,8 +187,8 @@ export default function LoginForm() {
           <input
             type="text"
             placeholder="Enter your Employee Number"
-            value={employeeNumber}
-            onChange={(e) => setEmployeeNumber(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
           <button

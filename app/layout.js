@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { DM_Sans, Titillium_Web } from "next/font/google";
 import "./globals.css";
+import { AuthContextProvider } from "./_utils/auth-context";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${titillium.variable} antialiased`}>
-        {children}
+        <AuthContextProvider>
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   );
