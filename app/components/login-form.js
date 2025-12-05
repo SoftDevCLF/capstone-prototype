@@ -83,7 +83,7 @@ export default function LoginForm() {
     <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 relative">
       {/* Heading */}
       <h2
-        className="text-3xl font-bold text-start mb-6"
+        className="text-3xl font-bold text-start mb-6 dark:text-black"
         style={{ fontFamily: "var(--font-titillium)" }}
       >
         Login
@@ -96,7 +96,7 @@ export default function LoginForm() {
       </p>
 
       <label
-        className="font-semibold"
+        className="font-semibold  dark:text-black"
         style={{ fontFamily: "var(--font-titillium)" }}
       >
         Employee Number
@@ -110,11 +110,11 @@ export default function LoginForm() {
       />
 
       {errors.employeeNumber && (
-        <p className="text-red-500 text-sm mb-2">{errors.employeeNumber}</p>
+        <p className="text-red-500 text-sm mb-2 ">{errors.employeeNumber}</p>
       )}
 
       <label
-        className="font-semibold"
+        className="font-semibold  dark:text-black"
         style={{ fontFamily: "var(--font-titillium)" }}
       >
         Password

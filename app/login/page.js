@@ -6,9 +6,10 @@ import LoginForm from "../components/login-form";
 export default function LoginPage() {
   // const user = useUserAuth();
   return (
-      <div className="min-h-screen flex flex-col bg-gray-100">
-        <Header />
-        <Navbar />
+
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <Header showLoginButton={false} /> {/*hide the login button*/}
+      <Navbar />
 
         <main className="grow flex items-center justify-center">
           {/* <div>
