@@ -48,7 +48,7 @@ export default function LoginForm() {
   };
 
   const handleRequestSubmit = () => {
-    window.location.href = 'mailto:kiera.johnson@edu.sait.ca?subject=Staff Access Request'
+    // window.location.href = 'mailto:kiera.johnson@edu.sait.ca?subject=Staff Access Request'
     alert(
       `Access request for employee number ${employeeNumber} sent to admin.`
     );
@@ -98,7 +98,7 @@ export default function LoginForm() {
         className="font-semibold  dark:text-black"
         style={{ fontFamily: "var(--font-titillium)" }}
       >
-        Employee Number
+        Email
       </label>
       <input
         type="text"
@@ -186,8 +186,8 @@ export default function LoginForm() {
           <input
             type="text"
             placeholder="Enter your Employee Number"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={employeeNumber}
+            onChange={(e) => setEmployeeNumber(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
           <button
